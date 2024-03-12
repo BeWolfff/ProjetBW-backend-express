@@ -9,14 +9,14 @@ exports.login = (req, res) => {
   Utilisateur.findOne({ email: email })
     .then((utilisateur) => {
       if (!utilisateur) {
-        res.status(403).send({
+        return res.status(403).send({
           message: "Mauvais email / mot de passe",
         });
       }
 
       bcrypt.compare(password, utilisateur.password).then((isMatch) => {
         if (!isMatch) {
-          res.status(403).send({
+          return res.status(403).send({
             message: "Mauvais email / mot de passe",
           });
         }
@@ -26,12 +26,12 @@ exports.login = (req, res) => {
           },
           secret
         );
-        res.send({ jwt });
+        return res.send({ jwt });
       });
     })
     .catch((err) => {
       if (err.kind === "email") {
-        res.status(403).send({
+        return res.status(403).send({
           message: "Mauvais email / mot de passe",
         });
       }

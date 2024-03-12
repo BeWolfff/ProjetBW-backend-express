@@ -28,10 +28,10 @@ exports.create = (req, res) => {
     utilisateur
       .save()
       .then((data) => {
-        res.send(data);
+        return res.send(data);
       })
       .catch((err) => {
-        res.status(500).send({
+        return res.status(500).send({
           message: err.message || "Une erreur est survenue",
         });
       });
@@ -48,7 +48,7 @@ exports.profil = (req, res) => {
             "Impossible de trouver l'utilisateur avec l'id " + req.user.id,
         });
       }
-      res.send(utilisateur);
+      return res.send(utilisateur);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -67,10 +67,10 @@ exports.profil = (req, res) => {
 exports.findAll = (req, res) => {
   Utilisateur.find()
     .then((utilisateurs) => {
-      res.send(utilisateurs);
+      return res.send(utilisateurs);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message || "Une erreur est survenue",
       });
     });
@@ -87,7 +87,7 @@ exports.findOne = (req, res) => {
             req.params.utilisateurId,
         });
       }
-      res.send(utilisateur);
+      return res.send(utilisateur);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -130,7 +130,7 @@ exports.update = (req, res) => {
             req.params.utilisateurId,
         });
       }
-      res.send(utilisateur);
+      return res.send(utilisateur);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -159,7 +159,7 @@ exports.delete = (req, res) => {
             req.params.utilisateurId,
         });
       }
-      res.send({ message: "L' utilisateur a bien été supprimé" });
+      return res.send({ message: "L' utilisateur a bien été supprimé" });
     })
     .catch((err) => {
       if (err.kind === "ObjectId" || err.name === "NotFound") {

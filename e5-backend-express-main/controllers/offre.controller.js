@@ -20,10 +20,10 @@ exports.create = (req, res) => {
   offre
     .save()
     .then((data) => {
-      res.send(data);
+      return res.send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message || "Une erreur est survenue",
       });
     });
@@ -34,10 +34,10 @@ exports.findAll = (req, res) => {
   Offre.find({}, "-createdAt -updatedAt -__v")
     .populate("utilisateur", "-password -email -createdAt -updatedAt -__v")
     .then((offres) => {
-      res.send(offres);
+      return res.send(offres);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message:
           err.message ||
           "Une erreur est survenue lors de la récupération des offres.",
@@ -56,7 +56,7 @@ exports.findOne = (req, res) => {
             "Impossible de trouver l'offre avec l'id " + req.params.offreId,
         });
       }
-      res.send(offre);
+      return res.send(offre);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -91,7 +91,7 @@ exports.update = (req, res) => {
             "Impossible de trouver l'offre avec l'id " + req.params.offreId,
         });
       }
-      res.send(offre);
+      return res.send(offre);
     })
     .catch((err) => {
       if (err.kind === "ObjectId") {
@@ -118,7 +118,7 @@ exports.delete = (req, res) => {
             "Impossible de trouver l'offre avec l'id " + req.params.offreId,
         });
       }
-      res.send({ message: "L' offre a bien été supprimé" });
+      return res.send({ message: "L' offre a bien été supprimé" });
     })
     .catch((err) => {
       if (err.kind === "ObjectId" || err.name === "NotFound") {

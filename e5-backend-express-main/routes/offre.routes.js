@@ -6,7 +6,7 @@ const verifierJWT = require("../middlewares/auth");
   app.post("/offre", verifierJWT, offres.create);
 
   // Liste tous les offres
-  app.get("/offres", offres.findAll);
+  app.get("/offres", verifierJWT, offres.findAll);
 
   // Récupère une offre par son identifiant
   app.get("/offre/:offreId", offres.findOne);
