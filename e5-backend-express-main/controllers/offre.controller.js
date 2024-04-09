@@ -2,6 +2,10 @@ const Offre = require("../models/offre.model.js");
 
 // Créer une offre
 exports.create = (req, res) => {
+
+console.log(req.user);
+console.log(req.body);
+
   if (!req.body.titre || !req.body.prix) {
     return res.status(400).send({
       message: "Le titre et le prix sont obligatoires",
@@ -12,7 +16,7 @@ exports.create = (req, res) => {
     titre: req.body.titre,
     description: req.body.description,
     prix: req.body.prix,
-    etat: req.body.etat,
+    etat: "neuf",
     photos: req.body.photos,
     utilisateur: req.user.id,
   });
@@ -20,6 +24,19 @@ exports.create = (req, res) => {
   offre
     .save()
     .then((data) => {
+
+      fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+        to: "ExponentPushToken[W7b7pGNK3JhBt4Cwri6a4H]",
+        title: "hello",
+        body: "world",
+        data: { extraData: "Some data" },
+        }),
+        }).then((data) => console.log(data));
+        
+
       return res.send(data);
     })
     .catch((err) => {

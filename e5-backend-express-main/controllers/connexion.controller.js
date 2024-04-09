@@ -6,6 +6,8 @@ const { secret } = require("../config");
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
+  console.log(email);
+
   Utilisateur.findOne({ email: email })
     .then((utilisateur) => {
       if (!utilisateur) {
