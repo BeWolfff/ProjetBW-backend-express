@@ -8,6 +8,9 @@ const verifierJWT = require("../middlewares/auth");
   // Liste tous les offres
   app.get("/offres", verifierJWT, offres.findAll);
 
+    // Récupère une offre par son titre
+    app.get("/offres/:search", verifierJWT, offres.findAllwithSearch);
+
   // Récupère une offre par son identifiant
   app.get("/offre/:offreId", offres.findOne);
 

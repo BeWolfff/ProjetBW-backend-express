@@ -62,6 +62,25 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Liste toutes les offres de la base de données d'après la recherche
+exports.findAllwithSearch = (req, res) => {
+  console.log(req.params.search)
+  Offre.find({}, "-createdAt -updatedAt -__v")
+    .populate("utilisateur", "-password -email -createdAt -updatedAt -__v")
+    .then((offres) => {
+      return res.send(offres);
+    })
+    .catch((err) => {
+      return res.status(500).send({
+        message:
+          err.message ||
+          "Une erreur est survenue lors de la récupération des offres.",
+      });
+    });
+};
+
+
+
 // Trouve un offre par son identifiant
 exports.findOne = (req, res) => {
   Offre.findById(req.params.offreId, "-createdAt -updatedAt -__v")
